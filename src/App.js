@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import React, { useState } from "react";
+import "./App.css";
+
+import { TodoForm } from "./components/form/todo-form";
+import { TodoList } from "./components/todo/todo-list";
 
 function App() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [todoArray, setTodoArray] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box className="App">
+      <Typography variant="h1" component="h2">
+        Todo form
+      </Typography>
+      <TodoForm
+        title={title}
+        setTitle={setTitle}
+        description={description}
+        setDescription={setDescription}
+        handleSubmit={(event) => {
+          event.preventDefault();
+          setTodoArray((prev) => [
+            ...prev,
+            { title, description, id: prev.length + 1 },
+          ]);
+          setTitle("");
+          setDescription("");
+        }}
+      />
+      <TodoList todoArray={todoArray} />
+    </Box>
   );
 }
 
